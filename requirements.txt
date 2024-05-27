@@ -13,4 +13,5 @@ dj-database-url
 gunicorn
 psycopg2
 argon2
+argon2-cffi
 
