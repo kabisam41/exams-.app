@@ -14,6 +14,9 @@ from django.contrib.auth.models import Group
 from questions.views import has_group
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from student.models import StuResults_DB
+from django.http import HttpResponse
+
 
 
 @login_required(login_url='faculty-login')
@@ -24,6 +27,33 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from django.contrib import messages
+
+
+def view_student_results(request):
+    try:
+        # Fetch all student results with related student and exams data
+        results = StuResults_DB.objects.all().select_related('student').prefetch_related('exams')
+
+        # Check if there are any results
+        if not results.exists():
+            return HttpResponse("No results found", status=404)
+        
+        # Prepare the context dictionary
+        context = {
+            'results': results
+        }
+
+        # Render the template with the context data
+        return render(request, 'faculty/view_results.html', context)
+    
+    except StuResults_DB.DoesNotExist:
+        # Handle the case where the StuResults_DB model does not exist
+        return HttpResponse("Error: Student results not found", status=500)
+    
+    except Exception as e:
+        # Handle any other exceptions
+        return HttpResponse(f"An error occurred: {str(e)}", status=500)
+
 
 class Register(View):
     def get(self, request):

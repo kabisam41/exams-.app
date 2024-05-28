@@ -17,13 +17,15 @@ from django.contrib import admin
 from . import views
 from django.urls import path,include 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from faculty.views import view_student_results
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('student/',include('student.urls')),
     path('faculty/',include('faculty.urls')),
     path('student-pref/',include('studentPreferences.urls')),
     path('exams/',include('questions.urls')),
-    path('',views.index,name = "homepage")
+    path('',views.index,name = "homepage"),
+    path('faculty/view_results/', view_student_results, name='view_student_results'),
 ]
 
 from django.conf import settings

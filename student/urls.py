@@ -4,6 +4,7 @@ from .views import Register,LoginView,LogoutView
 from .api import UsernameValidation
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import views as auth_views
+from faculty.views import view_student_results
 
 urlpatterns = [
     path('',views.index,name = "index"),
@@ -18,4 +19,7 @@ urlpatterns = [
     path('reset-password_sent/',auth_views.PasswordResetDoneView.as_view(template_name="student/resetPasswordSent.html"),name="password_reset_done"),
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="student/setNewPassword.html"),name="password_reset_confirm"),
     path('reset-password-complete/',auth_views.PasswordResetCompleteView.as_view(template_name="student/resetPasswordDone.html"),name="password_reset_complete"),
+    path('faculty/view_results', view_student_results, name='view_student_results'),
+    
+
 ]
